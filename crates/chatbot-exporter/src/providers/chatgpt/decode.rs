@@ -77,6 +77,14 @@ fn decode_node(
     active[index] = true;
 
     let decoded = match &flat[index] {
+        Value::Array(values)
+            if values.len() == 2
+                && values[0] == Value::String("P".to_owned())
+                && values[1].as_i64() == i64::try_from(index).ok() =>
+        {
+            // Pending promises are self-referential markers and are not conversation data.
+            Value::Null
+        }
         Value::Array(values) => {
             let mut result = Vec::with_capacity(values.len());
             for value in values {
@@ -166,6 +174,25 @@ mod tests {
 
         let cycle = vec![serde_json::json!([0])];
         assert!(decode_node(0, &cycle, &mut [None], &mut [false]).is_err());
+    }
+
+    #[test]
+    fn ignores_self_referential_pending_promise_markers() {
+        let flat = vec![
+            serde_json::json!({"_1": 2}),
+            serde_json::json!("statsigGateEvaluationsPromise"),
+            serde_json::json!(["P", 2]),
+        ];
+        assert_eq!(
+            decode_node(
+                0,
+                &flat,
+                &mut vec![None; flat.len()],
+                &mut vec![false; flat.len()]
+            )
+            .unwrap(),
+            serde_json::json!({"statsigGateEvaluationsPromise": null})
+        );
     }
 
     #[test]
