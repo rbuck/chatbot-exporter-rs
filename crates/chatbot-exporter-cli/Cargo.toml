@@ -1,0 +1,15 @@
+[package]
+name = "chatbot-exporter-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Command-line tool for exporting publicly shared ChatGPT conversations as Markdown"
+
+[[bin]]
+name = "chatbot-exporter"
+path = "src/main.rs"
+
+[dependencies]
+chatbot-exporter = { path = "../chatbot-exporter" }
+tokio = { version = "1", features = ["io-std", "io-util", "macros", "rt-multi-thread"] }

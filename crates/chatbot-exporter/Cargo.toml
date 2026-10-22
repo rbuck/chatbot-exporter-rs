@@ -1,0 +1,19 @@
+[package]
+name = "chatbot-exporter"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Async library for exporting publicly shared chatbot conversations as Markdown"
+
+[dependencies]
+async-trait = "0.1"
+regex = "1"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls"] }
+serde_json = "1"
+tempfile = "3"
+tokio = { version = "1", features = ["fs", "io-util", "macros", "rt-multi-thread"] }
+url = "2"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["net", "time"] }
