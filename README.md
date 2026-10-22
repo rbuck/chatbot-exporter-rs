@@ -48,8 +48,52 @@ tar -xzf dist/chatbot-exporter-0.1.0-aarch64-apple-darwin.tar.gz
 ./chatbot-exporter/chatbot-exporter --help
 ```
 
-The package is host-target-only by default. Cross-compilation and a GitHub
-release upload workflow are not included.
+`make package` defaults to the current Rust host target. Pushing a tag that
+matches the CLI package version (for example, `v0.1.0`) triggers the GitHub
+Actions release workflow. It tests the workspace, builds 64-bit Linux x86_64
+and ARM64 plus macOS x86_64 and ARM64 packages on native runners, generates a
+`SHA256SUMS.txt` file, and attaches all assets to a GitHub Release.
+
+### Managing Tags
+
+The usual approach is to fetch every tag from the remote, then create and
+push only the specific new release tag. Tags are normally treated as
+immutable—don’t move an existing release tag.
+
+To sync your local tags with GitHub:
+
+```shell
+git fetch --tags origin
+git tag --list
+```
+
+That fetches all remote tags, including ones created by other contributors.
+Avoid git push --tags for a release: it can publish every local tag,
+including tags you didn’t intend to release. Push the new tag by name instead.
+
+Release process for this project
+For example, to release v0.1.1:
+
+1. Update the version in the workspace package metadata in Cargo.toml from
+0.1.0 to 0.1.1, and update Cargo.lock as needed. Run make precommit and
+review the changes.
+
+2. Commit and push those changes to the release branch.
+
+3. Create an annotated tag on that commit and push it:
+
+```shell
+git tag -a v0.1.1 -m "Release v0.1.1"
+git push origin v0.1.1
+```
+
+  If the release commit itself hasn’t been pushed yet, push the branch first.
+
+4. The release workflow runs because the tag matches v*. It checks that the tag version matches the CLI package version, runs checks, builds the four 64-bit Linux and macOS packages, generates SHA256SUMS.txt, and publishes a GitHub Release.
+
+5. Check the Actions run and confirm the four archives and checksum file appear on the release.
+
+If the tag doesn’t match the Cargo version or a build/check fails, the workflow won’t publish a release. Fix the source and push a new version and tag rather than moving the failed tag; that keeps release tags reliable and reproducible.
 
 ## Build a Debian Bookworm Linux package with Docker
 
