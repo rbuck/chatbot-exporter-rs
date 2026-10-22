@@ -93,7 +93,7 @@ dependencies = [
 
 [[package]]
 name = "chatbot-exporter"
-version = "0.1.3"
+version = "0.2.0"
 dependencies = [
  "async-trait",
  "regex",
@@ -106,7 +106,7 @@ dependencies = [
 
 [[package]]
 name = "chatbot-exporter-cli"
-version = "0.1.3"
+version = "0.2.0"
 dependencies = [
  "chatbot-exporter",
  "tokio",
