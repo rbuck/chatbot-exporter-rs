@@ -7,7 +7,7 @@ mod source_url;
 
 pub use filename::default_output_name;
 pub use options::ExportOptions;
-pub use providers::{ConversationProvider, chatgpt::ChatGptProvider};
+pub use providers::{ConversationProvider, chatgpt::ChatGptProvider, claude::ClaudeProvider};
 pub use registry::ProviderRegistry;
 pub use source_url::{canonical_source_url, parse_source_url};
 

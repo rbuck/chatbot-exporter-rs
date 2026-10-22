@@ -4,6 +4,7 @@ use serde_json::Value;
 use url::Url;
 
 pub mod chatgpt;
+pub mod claude;
 
 #[async_trait]
 pub trait ConversationProvider: Send + Sync {

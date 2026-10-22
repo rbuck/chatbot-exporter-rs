@@ -19,7 +19,7 @@ pub async fn fetch_page(
     for redirect_count in 0..=options.max_redirects {
         let response = client
             .get(url.clone())
-            .header("accept", "text/html,application/xhtml+xml")
+            .header("accept", "text/html,application/xhtml+xml,application/json")
             .send()
             .await
             .map_err(|error| format!("Could not fetch the provider page: {error}"))?;

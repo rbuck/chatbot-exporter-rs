@@ -1,7 +1,7 @@
 # chatbot-exporter-rs
 
-An asynchronous Rust workspace for exporting publicly shared ChatGPT
-conversations as Markdown. Gemini is not currently supported.
+An asynchronous Rust workspace for exporting publicly shared ChatGPT and
+Claude conversations as Markdown. Gemini is not currently supported.
 
 ## Workspace
 
@@ -208,8 +208,10 @@ implementation by URL host. The `ConversationProvider` trait isolates
 provider-specific URL validation, downloading, decoding, and Markdown
 formatting.
 
-The default registry currently contains only the ChatGPT provider. Gemini is
-not supported.
+The default registry contains ChatGPT and Claude providers. Claude exports
+require a public share link that is accessible to anyone with the link;
+account-gated or private conversations are not supported. Gemini is not
+supported.
 
 ## Known Issues and Follow-ups
 

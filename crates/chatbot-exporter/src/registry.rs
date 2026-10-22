@@ -1,6 +1,6 @@
 use crate::{
     ExportOptions,
-    providers::{ConversationProvider, chatgpt::ChatGptProvider},
+    providers::{ConversationProvider, chatgpt::ChatGptProvider, claude::ClaudeProvider},
 };
 use serde_json::Value;
 use url::Url;
@@ -35,7 +35,7 @@ impl ProviderRegistry {
 
 impl Default for ProviderRegistry {
     fn default() -> Self {
-        Self::new(vec![Box::new(ChatGptProvider)])
+        Self::new(vec![Box::new(ChatGptProvider), Box::new(ClaudeProvider)])
     }
 }
 
